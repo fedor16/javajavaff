@@ -42,10 +42,10 @@ public class Task3 {
         System.out.println("Вы угадали!\nВы отгадали число за " + attempts + " попытки(ок)");
     }
 
-    private static int getInt(Scanner sc, String message) {
+    private int getInt(Scanner sc, String message) {
         if (!message.isEmpty()) System.out.print(message);
         while (!sc.hasNextInt()) {
-            System.out.println("Введите целое число.");
+            System.out.println("Ошибка! Введите целое число.");
             if (!message.isEmpty()) System.out.print(message);
             sc.next();
         }
@@ -60,21 +60,21 @@ public class Task3 {
         System.out.println("Задание 3");
 
         while (!exit) {
-            System.out.println("\nДоступные задачи: 2, 3, 7, 8, 10 (или 0 для выхода)");
-            int choice = getInt(sc, "Выберите задачу: ");
+            System.out.println("\nДоступные задачи: 2, 3, 7, 8, 10 (0 - выход)");
+            int choice = app.getInt(sc, "Выберите задачу: ");
 
             switch (choice) {
                 case 2:
-                    System.out.println("Результат: " + app.reverseListNums(getInt(sc, "Введите число x: ")));
+                    System.out.println("Результат: " + app.reverseListNums(app.getInt(sc, "Введите число x: ")));
                     break;
                 case 3:
-                    System.out.println("Результат: " + app.chet(getInt(sc, "Введите число x: ")));
+                    System.out.println("Результат: " + app.chet(app.getInt(sc, "Введите число x: ")));
                     break;
                 case 7:
-                    app.square(getInt(sc, "Введите размер квадрата: "));
+                    app.square(app.getInt(sc, "Введите размер квадрата: "));
                     break;
                 case 8:
-                    app.leftTriangle(getInt(sc, "Введите размер треугольника: "));
+                    app.leftTriangle(app.getInt(sc, "Введите размер треугольника: "));
                     break;
                 case 10:
                     app.guessGame(sc);

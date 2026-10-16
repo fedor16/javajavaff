@@ -47,58 +47,97 @@ public class Task4 {
         }
         return result;
     }
-    
-    private static int getInt(Scanner sc, String message) {
+
+    //ввод числа целого числа
+    private int getInt(Scanner sc, String message) {
         System.out.print(message);
         while (!sc.hasNextInt()) {
-            System.out.println("Ошибка! Введите целое число.");
+            System.out.println("Введите целое число.");
             System.out.print(message);
             sc.next();
         }
         return sc.nextInt();
     }
 
+    //ввод массива
+    private int[] getArray(Scanner sc, String name) {
+        int size;
+        while (true) {
+            size = getInt(sc, "Введите размер " + name + ": ");
+            if (size >= 0) break;
+            System.out.println("размер должен быть больше 0");
+        }
+        int[] arr = new int[size];
+        for (int i = 0; i < size; i++) {
+            arr[i] = getInt(sc, "Элемент [" + i + "]: ");
+        }
+        return arr;
+    }
+
+    //ввод позиции вставки в массив
+    private int getValidPos(Scanner sc, int maxPos) {
+        int pos;
+        while (true) {
+            pos = getInt(sc, "Введите позицию для вставки (от 0 до " + maxPos + "): ");
+            if (pos >= 0 && pos <= maxPos) return pos;
+            System.out.println("Позиция выходит за пределы массива.");
+        }
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         Task4 app = new Task4();
         boolean exit = false;
-        
-        int[] arr1 = {1, 2, 3, 4, 5}; 
 
         System.out.println("Задание 4");
 
         while (!exit) {
-            System.out.println("\nДоступные задачи: 3, 4, 5, 6, 9 (или 0 для выхода)");
-            int choice = getInt(sc, "Выберите задачу: ");
+            System.out.println("\nДоступные задачи: 3, 4, 5, 6, 9 (0 - выход)");
+            int choice = app.getInt(sc, "Выберите задачу: ");
 
             switch (choice) {
                 case 3:
-                    int[] testArr = {1, -2, -7, 4, 2, 2, 5};
-                    System.out.println("Массив: " + Arrays.toString(testArr) + "\nРезультат: " + app.maxAbs(testArr));
+                    int[] arr3 = app.getArray(sc, "массива");
+                    System.out.println("Массив: " + Arrays.toString(arr3));
+                    System.out.println("Максимальный по модулю: " + app.maxAbs(arr3));
                     break;
+
                 case 4:
-                    System.out.println("Исходный: " + Arrays.toString(arr1) + ", вставляем x=9 на позицию pos=3");
-                    System.out.println("Результат: " + Arrays.toString(app.add(arr1, 9, 3)));
+                    int[] arr4 = app.getArray(sc, "исходного массива");
+                    int x4 = app.getInt(sc, "Введите число для вставки: ");
+                    int pos4 = app.getValidPos(sc, arr4.length);
+                    System.out.println("Исходный: " + Arrays.toString(arr4));
+                    System.out.println("Результат: " + Arrays.toString(app.add(arr4, x4, pos4)));
                     break;
+
                 case 5:
-                    int[] ins = {7, 8, 9};
-                    System.out.println("Исходный: " + Arrays.toString(arr1) + ", вставляем массив " + Arrays.toString(ins) + " на позицию pos=3");
-                    System.out.println("Результат: " + Arrays.toString(app.add(arr1, ins, 3)));
+                    int[] arr5 = app.getArray(sc, "исходного массива");
+                    int[] ins5 = app.getArray(sc, "массива для вставки");
+                    int pos5 = app.getValidPos(sc, arr5.length);
+                    System.out.println("Исходный: " + Arrays.toString(arr5) + ", вставка: " + Arrays.toString(ins5));
+                    System.out.println("Результат: " + Arrays.toString(app.add(arr5, ins5, pos5)));
                     break;
+
                 case 6:
-                    int[] revArr = {1, 2, 3, 4, 5};
+                    int[] revArr = app.getArray(sc, "массива");
+                    System.out.println("Исходный: " + Arrays.toString(revArr));
                     app.reverse(revArr);
-                    System.out.println("Исходный был [1, 2, 3, 4, 5]\nРезультат (после реверса): " + Arrays.toString(revArr));
+                    System.out.println("Результат: " + Arrays.toString(revArr));
                     break;
+
                 case 9:
-                    int[] findArr = {1, 2, 3, 8, 2, 2, 9};
-                    System.out.println("Массив: " + Arrays.toString(findArr) + ", ищем x=2\nРезультаты (индексы): " + Arrays.toString(app.findAll(findArr, 2)));
+                    int[] findArr = app.getArray(sc, "массива");
+                    int x9 = app.getInt(sc, "Введите искомое число x: ");
+                    System.out.println("Массив: " + Arrays.toString(findArr));
+                    System.out.println("Индекты вхождений: " + Arrays.toString(app.findAll(findArr, x9)));
                     break;
+
                 case 0:
                     exit = true;
                     break;
+
                 default:
-                    System.out.println("Такой задачи нет в варианте 5!");
+                    System.out.println("такой задачи нет");
             }
         }
         sc.close();
